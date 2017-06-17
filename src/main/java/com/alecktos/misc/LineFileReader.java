@@ -11,7 +11,7 @@ public class LineFileReader {
 	/**
 	 *
 	 * @param filePath
-	 * @param numberOfLines //We are not using numberOfLines at the movement. Maybe we will later
+	 * @param numberOfLines
 	 * @return
 	 * @throws RuntimeException
 	 */
@@ -24,7 +24,7 @@ public class LineFileReader {
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException("Could not find file to read from: " + e.getMessage() + e.getStackTrace().toString());
 		} catch (IOException e) {
-			throw new RuntimeException("Failed reading prices from file: " + e.getMessage() + e.getStackTrace().toString());
+			throw new RuntimeException("Failed reading from file: " + e.getMessage() + e.getStackTrace().toString());
 		}
 
 		return lines;

@@ -6,9 +6,6 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by alexander on 2016-05-08.
- */
 public class FileHandlerTest {
 
 	@Test

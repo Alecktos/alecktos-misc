@@ -14,11 +14,11 @@ import static org.junit.Assert.assertEquals;
 
 public class LineFileReaderTest {
 
-	private static String disneyStockTestPath = "src/test/disneyStockTest.txt";
+	private static String testPath = "src/test/disneyStockTest.txt";
 
 	private static void removeTestFile() {
 		try {
-			Files.deleteIfExists(FileSystems.getDefault().getPath(disneyStockTestPath));
+			Files.deleteIfExists(FileSystems.getDefault().getPath(testPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -35,13 +35,13 @@ public class LineFileReaderTest {
 	}
 
 	@Test
-	public void testStuff() {
+	public void testWritingTwoLines() {
 
 		final String firstLine = "content-interval:5m  open:14.30-21.00 #time is in UTC";
 		final String secondLine = "98.27:1459175404887";
 
 		try {
-			PrintWriter printWriter = FileHandler.getFileWriter(disneyStockTestPath);
+			PrintWriter printWriter = FileHandler.getFileWriter(testPath);
 
 			printWriter.println(firstLine);
 			printWriter.println(secondLine);
@@ -52,13 +52,13 @@ public class LineFileReaderTest {
 
 
 		LineFileReader lineFileReader = new LineFileReader();
-		final List<String> linesFromFile = lineFileReader.getLinesFromFile(disneyStockTestPath, -1);
+		final List<String> linesFromFile = lineFileReader.getLinesFromFile(testPath, -1);
 
 		assertEquals(firstLine, linesFromFile.get(0));
 		assertEquals(secondLine, linesFromFile.get(1));
 
 		try {
-			FileHandler.deleteFile(disneyStockTestPath);
+			FileHandler.deleteFile(testPath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
