@@ -2,6 +2,7 @@ package com.alecktos.misc.logger;
 
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
+import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
@@ -20,6 +21,7 @@ public class EmailNotifier implements AlertNotifierInterface, Serializable {
 	protected String password;
 	protected String userName;
 
+	@Inject
 	public EmailNotifier(@Named("emailConfigPath") final String emailConfigPath) {
 		YamlReader yamlReader = null;
 		try {
