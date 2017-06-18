@@ -1,9 +1,10 @@
 package com.alecktos.misc.logger;
 
-import org.apache.commons.mail.DefaultAuthenticator;
+import com.google.inject.name.Named;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 
+import javax.mail.Authenticator;
 import java.io.Serializable;
 
 public class EmailNotifier implements AlertNotifierInterface, Serializable {
@@ -11,14 +12,14 @@ public class EmailNotifier implements AlertNotifierInterface, Serializable {
 	private final String receiverAddress;
 	private final String hostName;
 	private final String sentFrom;
-	private final DefaultAuthenticator defaultAuthenticator;
+	private final Authenticator defaultAuthenticator;
 
-	public EmailNotifier(String receiverAddress, String hostName, String sentFrom, DefaultAuthenticator defaultAuthenticator) {
-		this.receiverAddress = receiverAddress;
-		this.hostName = hostName;
-
-		this.sentFrom = sentFrom;
-		this.defaultAuthenticator = defaultAuthenticator;
+	public EmailNotifier(@Named("emailReceiverAddress") final String emailReceiverAddress, @Named("emailHostName") final String emailHostName,
+	                     @Named("emailSentFrom") final String emailSentFrom, final Authenticator authenticator) {
+		this.receiverAddress = emailReceiverAddress;
+		this.hostName = emailHostName;
+		this.sentFrom = emailSentFrom;
+		this.defaultAuthenticator = authenticator;
 	}
 
 	public void notify(String message, String subject) {
