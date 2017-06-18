@@ -12,6 +12,7 @@ public class FileHandler {
 		return new PrintWriter(new FileWriter(filePath, true));
 	}
 
+	//TODO rename
 	public static BufferedReader getFileReader(String filePath) throws FileNotFoundException {
 		return new BufferedReader(new FileReader(filePath));
 	}
