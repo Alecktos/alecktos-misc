@@ -35,4 +35,10 @@ public class DateTimeTest {
 		final int numberOfDays = DateTime.createFromDateTimeString("01/01/2016 00:00:00").daysBetween("01/02/2016 00:00:00");
 		assertEquals(1, numberOfDays);
 	}
+
+	@Test
+	public void testSQLFormat() {
+		final DateTime dateTime = DateTime.createFromDateTimeString("01/05/2016 14:00:00");
+		assertEquals("2016-01-05 14:00:00", dateTime.toSqlFormat());
+	}
 }

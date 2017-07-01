@@ -74,6 +74,18 @@ public class DateTime implements Serializable {
 		return dateTimeString.split(" ")[1];
 	}
 
+	public String toSqlFormat() {
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_TIME_FORMAT);
+		final Date date;
+		try {
+			date = formatter.parse(dateTimeString);
+		} catch (ParseException e) {
+			throw new RuntimeException("Failed converting dateTime to string");
+		}
+
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+	}
+
 	public boolean isDateAfter(DateTime otherDateTime) {
 		Calendar thisDay = getCalendarFromDateTime();
 		Calendar otherDay = otherDateTime.getCalendarFromDateTime();
