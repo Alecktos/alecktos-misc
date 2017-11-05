@@ -67,6 +67,13 @@ public class DateTime implements Serializable {
 	}
 
 	/**
+	 * @return String Only date part of datetime
+	 */
+	public String toDateString() {
+		return dateTimeString.split(" ")[0];
+	}
+
+	/**
 	 *
 	 * @return String only the time part from the datetime string
 	 */
