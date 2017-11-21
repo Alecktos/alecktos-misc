@@ -37,8 +37,6 @@ public class EmailNotifier implements AlertNotifierInterface, Serializable {
 			e.printStackTrace();
 		}
 
-
-
 		receiverAddress = (String) email.get("receiveraddress");
 		fromAddress = (String) email.get("fromaddress");
 		hostName = (String) email.get("hostname");

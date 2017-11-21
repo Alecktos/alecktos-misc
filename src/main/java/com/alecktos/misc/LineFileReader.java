@@ -8,10 +8,14 @@ import java.util.List;
 
 public class LineFileReader {
 
+	public List<String> getLinesFromFile(final String filePath) throws RuntimeException {
+		return getLinesFromFile(filePath, -1);
+	}
+
 	/**
 	 *
 	 * @param filePath
-	 * @param numberOfLines
+	 * @param numberOfLines (-1 for all lines)
 	 * @return
 	 * @throws RuntimeException
 	 */
@@ -28,6 +32,12 @@ public class LineFileReader {
 		}
 
 		return lines;
+	}
+
+	public String getLastLine(final String filePath) throws RuntimeException {
+		final List<String> linesFromFile = getLinesFromFile(filePath, -1);
+		int lastIndex = linesFromFile.size() - 1;
+		return linesFromFile.get(lastIndex);
 	}
 
 	private List<String> getLineArrayFromFile(BufferedReader br, int numberOfLines) throws IOException {
