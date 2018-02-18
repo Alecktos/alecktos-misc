@@ -18,6 +18,15 @@ public class DateTime implements Serializable {
 		//Empty
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (other == null) return false;
+		if (other == this) return true;
+		if (!(other instanceof DateTime))return false;
+
+		return other.toString().equals(this.toString());
+	}
+
 	public static DateTime createFromNow() {
 		DateTime dateTime = new DateTime();
 		dateTime.dateTimeString = dateTime.getUTCDateTimeFromTimeStamp(dateTime.getTimestamp());
