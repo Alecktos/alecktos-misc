@@ -45,6 +45,11 @@ public class DateTime implements Serializable {
 		return dateTime;
 	}
 
+	public static DateTime createFromSQLFromat(String sqlformatString) {
+		final long timestamp = parseDateTime("yyyy-MM-dd HH:mm:ss", sqlformatString);
+		return DateTime.createFromTimeStamp(timestamp);
+	}
+
 	private Long getTimestamp() {
 		return System.currentTimeMillis();
 	}
@@ -56,15 +61,19 @@ public class DateTime implements Serializable {
 	}
 
 	public Long toTimeStamp() {
+		return parseDateTime(DATE_TIME_FORMAT, dateTimeString);
+	}
+
+	private static long parseDateTime(String format, String stringToFormat) {
 		DateFormat formatter;
-		formatter = new SimpleDateFormat(DATE_TIME_FORMAT);
+		formatter = new SimpleDateFormat(format);
 		formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Date date = null;
+		Date date;
+
 		try {
-			date = formatter.parse(dateTimeString);
+			date = formatter.parse(stringToFormat);
 		} catch (ParseException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
+			throw new RuntimeException("Could not parse datetime string");
 		}
 
 		return date.getTime();
