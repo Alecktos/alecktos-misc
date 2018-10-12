@@ -1,0 +1,45 @@
+package com.alecktos.misc;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
+import static org.junit.Assert.assertEquals;
+
+public class InfluxdbDAOTest {
+
+	@Before
+	public void cleanUp() {
+		InfluxdbDAO.deleteDb("db_test");
+	}
+
+	@Test
+	public void testInsertingValue() {
+		final double price = 2.0;
+		final InfluxdbDAO influxdbDAO = new InfluxdbDAO();
+		influxdbDAO.writeInflux(price, DateTime.createFromNow(), "db_test");
+
+		try {
+			String query = "select * from disney_stock";
+			String q = URLEncoder.encode(query, "UTF-8");
+			final String result = influxdbDAO.executeGet("http://localhost:8086/query?db=db_test&pretty=false&q=" + q);
+
+			JSONObject jsonObject = new JSONObject(result);
+			final JSONArray values = jsonObject.getJSONArray("results").getJSONObject(0).getJSONArray("series").getJSONObject(0).getJSONArray("values");
+
+			//fixa detta testet
+			assertEquals(1, values.length());
+			assertEquals(price, values.getJSONArray(0).getDouble(1), 0.001);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
