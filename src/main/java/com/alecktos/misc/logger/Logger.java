@@ -12,22 +12,15 @@ import java.util.List;
 @Singleton
 public class Logger implements Serializable {
 
-	//TODO nothing should be static
-	private static List<Class> ignoreClasses = new ArrayList<>();
-	private static String subject = null;
-	private static boolean alert = false;
+	private List<Class> ignoreClasses = new ArrayList<>();
+	private String subject = null;
+	private boolean alert = false;
 
 	private AlertNotifierInterface alertNotifier;
 
 	@Inject
 	public Logger(final AlertNotifierInterface alertNotifier) {
 		this.alertNotifier = alertNotifier;
-	}
-
-	//TODO: need to remove this
-	public static void doAlert(String subject) {
-		alert = true;
-		Logger.subject = subject;
 	}
 
 	public void setIgnore(Class[] excludedClasses) {
