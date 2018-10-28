@@ -1,12 +1,7 @@
 package com.alecktos.misc;
 
 import com.alecktos.misc.logger.Logger;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.influxdb.BatchOptions;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
 import org.influxdb.dto.Point;
@@ -16,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class InfluxdbDAO {
@@ -51,17 +46,20 @@ public class InfluxdbDAO {
 		return result.toString();
 	}
 
-	public void writeInflux(double price, DateTime dateTime, String dbName) {
+	public void writeInflux(Map<String, Object> fieldsToAdd, DateTime dateTime, String measurement, String dbName) {
 		InfluxDB influxDB = null;
 		try {
 			influxDB = InfluxDBFactory.connect("http://localhost:8086");
-			//final String dbName = "stocks";
+
+			// Flush every 4000 Points, at least every 200ms
+			influxDB.enableBatch(BatchOptions.DEFAULTS.actions(4000).flushDuration(200));
+
 			influxDB.createDatabase(dbName);
 			influxDB.setDatabase(dbName);
 
-			influxDB.write(Point.measurement("disney_stock")
+			influxDB.write(Point.measurement(measurement)
 					.time(dateTime.toTimeStamp(), TimeUnit.MILLISECONDS)
-					.field("stock_value", price)
+					.fields(fieldsToAdd)
 					.build());
 			influxDB.close();
 

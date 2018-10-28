@@ -5,27 +5,32 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public class InfluxdbDAOTest {
 
+	private final static String dbName = "db_test";
+
 	@Before
 	public void cleanUp() {
-		InfluxdbDAO.deleteDb("db_test");
+		InfluxdbDAO.deleteDb(dbName);
 	}
 
 	@Test
 	public void testInsertingValue() {
 		final double price = 2.0;
 		final InfluxdbDAO influxdbDAO = new InfluxdbDAO();
-		influxdbDAO.writeInflux(price, DateTime.createFromNow(), "db_test");
+		final String measurements = "disney_stock";
+
+		Map<String, Object> fieldsToAdd = new HashMap<>();
+		fieldsToAdd.put("stock_value", price);
+
+		influxdbDAO.writeInflux(fieldsToAdd, DateTime.createFromNow(), measurements, dbName);
 
 		try {
 			String query = "select * from disney_stock";
@@ -33,7 +38,13 @@ public class InfluxdbDAOTest {
 			final String result = influxdbDAO.executeGet("http://localhost:8086/query?db=db_test&pretty=false&q=" + q);
 
 			JSONObject jsonObject = new JSONObject(result);
-			final JSONArray values = jsonObject.getJSONArray("results").getJSONObject(0).getJSONArray("series").getJSONObject(0).getJSONArray("values");
+			final JSONArray values =
+					jsonObject
+							.getJSONArray("results")
+							.getJSONObject(0)
+							.getJSONArray("series")
+							.getJSONObject(0)
+							.getJSONArray("values");
 
 			//fixa detta testet
 			assertEquals(1, values.length());
