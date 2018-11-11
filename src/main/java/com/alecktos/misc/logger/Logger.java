@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Singleton
-public class Logger implements Serializable {
+public class Logger {
 
 	private List<Class> ignoreClasses = new ArrayList<>();
 	private String subject = null;

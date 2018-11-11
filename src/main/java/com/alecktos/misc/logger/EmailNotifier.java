@@ -13,7 +13,7 @@ import java.io.FileReader;
 import java.io.Serializable;
 import java.util.Map;
 
-public class EmailNotifier implements AlertNotifierInterface, Serializable {
+public class EmailNotifier implements AlertNotifierInterface {
 
 	protected String receiverAddress;
 	protected String fromAddress;

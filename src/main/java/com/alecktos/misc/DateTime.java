@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class DateTime implements Serializable {
+public class DateTime {
 
 	private static final String TIME_FORMAT = "HH:mm:ss";
 	private static final String DATE_TIME_FORMAT = "MM/dd/yyyy HH:mm:ss";

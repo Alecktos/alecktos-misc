@@ -1,7 +1,0 @@
-email:
-  authentication:
-    username: stuff.ae@yahoo.com
-    password: fhdjsk12!
-  hostname: smtp.mail.gmail.com
-  fromaddress: a.dse@yahoo.com
-  receiveraddress: fhdsjk@gmail.com
